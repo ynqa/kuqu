@@ -162,3 +162,8 @@ SELECT * FROM nodes;
 3. **Short names**: `po`, `deploy`, `svc`
 4. **Group-qualified resource names**: `deployments.apps`,
    `rolebindings.rbac.authorization.k8s.io`
+
+## Acknowledgements
+
+This project was made possible thanks to the valuable advice and insights from [@zimagen](https://github.com/zimagen).
+Those played a crucial role in shaping the ideas behind this project.
