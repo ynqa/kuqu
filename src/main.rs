@@ -20,14 +20,14 @@ use datafusion::{
     execution::context::SessionContext,
     prelude::SessionConfig,
 };
-use kube::{
-    Client, Config,
-    config::{KubeConfigOptions, Kubeconfig},
+use kubex::{
+    discover::DiscoverClient,
+    kube::{
+        Client, Config,
+        config::{KubeConfigOptions, Kubeconfig},
+    },
 };
 
-mod discover;
-use discover::DiscoverClient;
-mod dynamic;
 mod provider;
 mod url;
 
@@ -46,30 +46,10 @@ pub struct Args {
     pub query: String,
 }
 
-/// Detects the Kubernetes context based on the provided `Args`.
-///
-/// Context determination follows this priority:
-/// 1. Uses the context explicitly specified in the `Args` structure.
-/// 2. Retrieves the current context from the kubeconfig file.
-///
-/// # Errors
-/// Returns an error if the kubeconfig file cannot be read or if no current context is set in the kubeconfig.
-fn detect_context(args: &Args) -> anyhow::Result<String> {
-    match &args.context {
-        Some(context) => Ok(context.clone()),
-        _ => {
-            let kubeconfig = Kubeconfig::read()?;
-            Ok(kubeconfig
-                .current_context
-                .ok_or_else(|| anyhow::anyhow!("current_context is not set"))?)
-        }
-    }
-}
-
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
     let args = Args::parse();
-    let context = detect_context(&args)?;
+    let context = kubex::determine_context(&args.context)?;
 
     let kubeconfig = Kubeconfig::read()?;
     let options = KubeConfigOptions {
