@@ -12,15 +12,15 @@ readme = "README.md"
 anyhow = "1.0.98"
 async-trait = "0.1.89"
 clap = { version = "4.5.47", features = ["derive"] }
-kubex = { path = "../kubex" }
+kubex = "0.1.0"
 serde = { version = "1.0.219", features = ["derive"] }
 serde_json = "1.0.140"
 tokio = { version = "1.47.1", features = ["full"] }
 
 # datafusion ecosystem
-datafusion = "49.0.2"
-datafusion-datasource = "49.0.2"
-datafusion-datasource-json = "49.0.2"
+datafusion = "50.0.0"
+datafusion-datasource = "50.0.0"
+datafusion-datasource-json = "50.0.0"
 
 # The profile that 'dist' will build with
 [profile.dist]
