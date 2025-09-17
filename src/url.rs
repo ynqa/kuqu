@@ -16,35 +16,6 @@ use std::fmt;
 
 use kubex::k8s_openapi::apimachinery::pkg::apis::meta::v1::APIResource;
 
-/// Check if the resource name matches the APIResource
-/// Search targeting by:
-/// - `name`
-/// - `singularName`
-/// - `shortNames`
-/// - `group``
-fn match_resource(resource: &str, api_resource: &APIResource) -> bool {
-    api_resource.name == resource
-        || api_resource.singular_name == resource
-        || api_resource
-            .short_names
-            .as_ref()
-            .is_some_and(|short_names| short_names.contains(&resource.to_string()))
-        || api_resource
-            .group
-            .as_ref()
-            .is_some_and(|group| format!("{}.{}", api_resource.name, group) == resource)
-}
-
-/// Find the specified resource in the APIResources
-pub fn find_resource(resource: &str, api_resources: &[APIResource]) -> Option<APIResource> {
-    for api_resource in api_resources {
-        if match_resource(resource, api_resource) {
-            return Some(api_resource.clone());
-        }
-    }
-    None
-}
-
 /// Structure representing a Kubernetes resource URL
 #[derive(Debug, Clone, PartialEq)]
 pub struct KubernetesUrl {
@@ -88,7 +59,7 @@ impl KubernetesUrl {
         };
 
         // Check if resource exists and retrieve it
-        let api_resource = match find_resource(&resource, api_resources) {
+        let api_resource = match kubex::find_resource(&resource, api_resources) {
             Some(res) => res,
             None => return Err(ParseError::ResourceNotFound(resource)),
         };

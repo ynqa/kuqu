@@ -2213,9 +2213,9 @@ dependencies = [
 
 [[package]]
 name = "kubex"
-version = "0.1.0"
+version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "04ed5af1666a199eb576efeda0481a2de1348922678e556838088cd6c9d32070"
+checksum = "f2f9c390ee02c2dd6d2fef760aefa0ca71c87cc1c2a54cecd8c7756c07233b45"
 dependencies = [
  "anyhow",
  "futures",
