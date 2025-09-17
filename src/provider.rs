@@ -35,10 +35,13 @@ use datafusion::{
         memory::MemoryStream,
     },
 };
-use k8s_openapi::apimachinery::pkg::apis::meta::v1::APIResource;
-use kube::{Api, Client, api::ObjectList};
+use kubex::{
+    dynamic::DynamicObject,
+    k8s_openapi::apimachinery::pkg::apis::meta::v1::APIResource,
+    kube::{Api, Client, api::ObjectList},
+};
 
-use crate::{dynamic::DynamicObject, url::KubernetesUrl};
+use crate::url::KubernetesUrl;
 
 /// Infer schema from NDJSON
 async fn infer_schema(ndjson: &str) -> DataFusionResult<SchemaRef> {
